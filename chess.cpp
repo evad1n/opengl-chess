@@ -19,6 +19,7 @@ const double UNIT = SCALE; // One square on the board
 void updateLights() {
     float lightx = CENTER;
     float lighty = UNIT * 10;
+    interpolate(t, 14, 15, lighty, UNIT * 10, BOARD_HEIGHT);
     float lightz = CENTER;
     GLfloat light_position[] = { lightx, lighty, lightz, 1.0 };
     float dirx = CENTER - lightx;
@@ -29,13 +30,14 @@ void updateLights() {
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
 
     // So light actually looks lit
+    GLfloat light_position2[] = { lightx, lighty + (float)SCALE * 4, lightz, 1.0 };
     GLfloat spot_reverse_direction[] = { -dirx, -diry, -dirz };
-    glLightfv(GL_LIGHT1, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT1, GL_POSITION, light_position2);
     glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_reverse_direction);
 
     // Draw light cone facing right direction
     glPushMatrix();
-    glTranslatef(lightx, lighty + SCALE * 4, lightz);
+    glTranslatef(lightx, lighty, lightz);
     double rotY = atan2(dirx, dirz) * 180 / M_PI;
     glRotatef(rotY, 0, 1, 0);
     double rotX = -atan2(diry, dirz) * 180 / M_PI;

@@ -6,8 +6,16 @@ const double KNIGHT_ROTATION = 20;
 
 double t;
 
-void interpolate(double t, double t1, double t2,
-    double& v, double v1, double v2) {
+void interpolate(double t, double t1, double t2, double& v, double v1, double v2) {
+    if (t < t1)
+        t = t1;
+    if (t > t2)
+        t = t2;
+    double ratio = (t - t1) / (t2 - t1);
+    v = v1 + ratio * (v2 - v1);
+}
+
+void interpolate(double t, double t1, double t2, float& v, double v1, double v2) {
     if (t < t1)
         t = t1;
     if (t > t2)
